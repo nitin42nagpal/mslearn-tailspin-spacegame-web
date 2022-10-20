@@ -25,6 +25,7 @@ stages:
       inputs:
         version: '$(dotnetSdkVersion)'
 
+<<<<<<< HEAD
     - task: Npm@1
       displayName: 'Run npm install'
       inputs:
@@ -87,3 +88,25 @@ stages:
               azureSubscription: 'TailSpin'
               appName: '$(WebAppName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+=======
+- task: VSTest@2
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: GitHubRelease@1
+  inputs:
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'gitTag'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
+>>>>>>> 6f1a889014f95a6341a996452de49cd77683c9d5
